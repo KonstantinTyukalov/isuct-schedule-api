@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "dotnet_webapi_test": {
+    "isuct_schedule_api": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
