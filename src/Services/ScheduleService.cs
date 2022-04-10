@@ -1,35 +1,21 @@
-using Newtonsoft.Json;
+using Interfaces;
 using Models;
 
 namespace Services;
 
-public class ScheduleService
+public class ScheduleService: IScheduleService
 {
-    public static object GetGroupSchedule(string group)
+    private readonly IUniversityApiService _universityApiService;
+    public ScheduleService(IUniversityApiService universityApiService)
     {
-        var fullSchedule = ScheduleService.FetchSchedule();
+        this._universityApiService = universityApiService;
+    }
+    public Group GetGroupSchedule(string group)
+    {
+        var fullSchedule = this._universityApiService.GetSchedule();
         var groupSchedule = fullSchedule.Faculties.First(x => x.Groups.Any(x => x.Name == group)).Groups.First(x => x.Name == group);
 
         return groupSchedule;
 
-    }
-
-    public static Schedule FetchSchedule()
-    {
-        var apiUrl = "https://forms.isuct.ru/timetable/rvuzov";
-        using (var http = new HttpClient())
-        {
-            try
-            {
-                var jsonStr = http.GetStringAsync(apiUrl).Result;
-                var schedule = JsonConvert.DeserializeObject<Schedule>(jsonStr);
-
-                return schedule;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Error when fetching schedule: " + e.Message);
-            }
-        }
     }
 }
