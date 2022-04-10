@@ -3,12 +3,17 @@ using Models;
 
 namespace Services;
 
-public class ScheduleService: IScheduleService
+public class ScheduleService : IScheduleService
 {
+    private List<string> _uselesLessons = null;
     private readonly IUniversityApiService _universityApiService;
     public ScheduleService(IUniversityApiService universityApiService)
     {
         this._universityApiService = universityApiService;
+        _uselesLessons = new List<string>()
+        {
+            "День самостоятельной работы",
+        };
     }
     public Group GetGroupSchedule(string group)
     {
@@ -17,5 +22,14 @@ public class ScheduleService: IScheduleService
 
         return groupSchedule;
 
+    }
+
+    public List<Lesson> GetGroupLessons(string group)
+    {
+        var groupSchedule = this.GetGroupSchedule(group);
+
+        var lessons = groupSchedule.Lessons.FindAll(l => !_uselesLessons.Any(ul => ul == l.Subject));
+
+        return lessons;
     }
 }

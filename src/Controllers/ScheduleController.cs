@@ -19,6 +19,6 @@ public class ScheduleController : ControllerBase
         System.Console.WriteLine($"Group: {group} ");
         var fixedGroup = Regex.Replace(group, "/", "-");
 
-        return _scheduleService.GetGroupSchedule(fixedGroup);
+        return _scheduleService.GetGroupLessons(fixedGroup);
     }
 }
