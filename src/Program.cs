@@ -13,6 +13,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IUniversityApiService, UniversityApiService>();
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
 
+var cachePath = Path.Combine(Directory.GetCurrentDirectory(), "cache");
+if (!Directory.Exists(cachePath))
+{
+    Directory.CreateDirectory(cachePath);
+}
+
+var fileService = new FileService(cachePath);
+
+builder.Services.AddSingleton<FileService>(fileService);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,3 +39,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
