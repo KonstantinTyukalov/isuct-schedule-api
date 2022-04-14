@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IUniversityApiService, UniversityApiService>();
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
-
+builder.Services.AddScoped<IActivitiesService, ActivitiesService>();
 var cachePath = Path.Combine(Directory.GetCurrentDirectory(), "cache");
 if (!Directory.Exists(cachePath))
 {
